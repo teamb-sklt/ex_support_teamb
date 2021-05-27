@@ -2,10 +2,73 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css' />
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <h1>交通費メモ閲覧</h1>
+    <!-- 前月データへ移動 -->
+    <p><a href="#">前月データへ</a></p>
+    <div class="container">
+      <h2><%= section1 %></h2>
+      <button>新規パターンを追加</button>
+      <table class="table">
+        <tr>
+          <th>No.</th>
+          <th>申請</th>
+          <th>経路</th>
+          <th>手段</th>
+          <th>費用</th>
+          <th>回数</th>
+          <th>ジョブ情報</th>
+          <th>メモ</th>
+          <th>詳細</th>
+          <th>片道</th>
+          <th>往復</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td><input type="checkbox" name="申請" id="sinsei"></td>
+          <td>渋谷～溜池山王</td>
+          <td>電車</td>
+          <td>100</td>
+          <td>2</td>
+          <td>オフィス</td>
+          <td>メモ</td>
+          <td><button>詳細</button></td>
+          <td><button>片道</button></td>
+          <td><button>往復</button></td>
+        </tr>
+      </table>
+    </div>
+    <div class="container">
+      <h2><%= section2 %></h2>
+      <button>新規レコードを追加</button>
+      <table class="table">
+        <tr>
+          <th>No.</th>
+          <th>申請</th>
+          <th>経路</th>
+          <th>手段</th>
+          <th>費用</th>
+          <th>回数</th>
+          <th>ジョブ情報</th>
+          <th>メモ</th>
+          <th>詳細</th>
+          <th>コピー</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td><input type="checkbox" name="申請" id="sinsei"></td>
+          <td>渋谷～溜池山王</td>
+          <td>電車</td>
+          <td>100</td>
+          <td>2</td>
+          <td>オフィス</td>
+          <td>メモ</td>
+          <td><button>詳細</button></td>
+          <td><button>コピー</button></td>
+        </tr>
+      </table>
+    </div>
   </body>
 </html>
