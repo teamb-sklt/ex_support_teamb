@@ -10,7 +10,7 @@
     <p><a href="#">前月データへ</a></p>
     <div class="container">
       <h2><%= section1 %></h2>
-      <button>新規パターンを追加</button>
+      <button class="btn btn-primary" id="users">新規パターンを追加</button>
       <table class="table">
         <tr>
           <th>No.</th>
@@ -25,17 +25,17 @@
           <th>片道</th>
           <th>往復</th>
         </tr>
-        <% for(let i in message){ %> 
+        <% for(let i in shuppatsu){ %> 
         <tr>
-          <td id="number">1</td>
+          <td id="number"><%- i+1 %> </td>
           <td id="checkbox"><input type="checkbox" name="申請" id="sinsei"></td>
-          <td id="keiro">渋谷～溜池山王</td>
-          <td id="shudan">電車</td>
-          <td id="money">100</td>
-          <td id="times">2</td>
-          <td id="job">オフィス</td>
-          <td id="memo">メモ</td>
-          <td><button>詳細</button></td>
+          <td id="keiro"><%- shuppatsu[i] %> ～<%- totyaku[i] %> </td>
+          <td id="shudan"><%- shudan[i] %> </td>
+          <td id="money"><%- money[i] %> </td>
+          <td id="times"><%- times[i] %> </td>
+          <td id="job"><%- job[i] %> </td>
+          <td id="memo"><%- memo[i] %> </td>
+          <td><a class="btn btn-primary" href="javascript:detail(<%= shuppatsu[i].id,totyaku[i],shudan[i],money[i],times[i],job[i],memo[i] %> );">詳細</a></td>
           <td><button>片道</button></td>
           <td><button>往復</button></td>
         </tr>
@@ -44,11 +44,12 @@
     </div>
     <div class="container">
       <h2><%= section2 %></h2>
-      <button>新規レコードを追加</button>
+      <button class="btn btn-primary" id="detail">新規レコードを追加</button>
       <table class="table">
         <tr>
           <th>No.</th>
           <th>申請</th>
+          <th>日付</th>
           <th>経路</th>
           <th>手段</th>
           <th>費用</th>
@@ -58,20 +59,37 @@
           <th>詳細</th>
           <th>コピー</th>
         </tr>
+        <% for(let i in shuppatsu){ %> 
         <tr>
-          <td>1</td>
-          <td><input type="checkbox" name="申請" id="sinsei"></td>
-          <td>渋谷～溜池山王</td>
-          <td>電車</td>
-          <td>100</td>
-          <td>2</td>
-          <td>オフィス</td>
-          <td>メモ</td>
-          <td><button>詳細</button></td>
-          <td><button>コピー</button></td>
+          <td id="number"><%- i+1 %> </td>
+          <td id="checkbox"><input type="checkbox" name="申請" id="sinsei"></td>
+          <td id="date"><%- date[i] %> </td>
+          <td id="keiro"><%- shuppatsu[i] %> ～<%- totyaku[i] %></td>
+          <td id="shudan"><%- shudan[i] %></td>
+          <td id="money"><%- money[i] %></td>
+          <td id="times"><%- times[i] %></td>
+          <td id="job"><%- job[i] %></td>
+          <td id="memo"><%- memo[i] %></td>
+          <td><a class="btn btn-primary" href="javascript:detail(<%= shuppatsu[i].id,totyaku[i],shudan[i],money[i],times[i],job[i],memo[i] %> );">詳細</a></td>
+          <td><a class="btn btn-primary" href="javascript:copy(<%= shuppatsu[i].text,totyaku[i],shudan[i],money[i],times[i],job[i],memo[i] %> );">コピー</a></td>
         </tr>
+        <% } %> 
       </table>
-      <p><%= datas %> </p>
     </div>
   </body>
+  <script>
+    'use strict';
+    document.getElementById("users").onclick=function(){
+      document.location="/users";//ユーザー設定ページへ
+    }
+    document.getElementById("detail").onclick=function(){
+      document.location="/detail";//詳細設定ページへ
+    }
+    function detail(shuppatsu,totyaku,shudan,money,times,job,memo){
+      document.location="/detail";
+    }
+    function copy(shuppatsu,totyaku,shudan,money,times,job,memo){
+      let result= window.confirm("以下のメモをコピーしますか？\n"+"経路："+shuppatsu+"~"+totyaku+"\n手段："+shudan+"\n費用："+money+"\n回数："+times+"\nジョブ情報："+job+"\nメモ："+memo);
+    }
+  </script>
 </html>
