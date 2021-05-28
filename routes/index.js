@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var{Client}=require('pg');  //データベースを使うための宣言
+const dbpassword = process.env.DBPW //DBを使うのに必要
+const apiKey = process.env.APIKEY //APIkeyを使うのに必要
 
 /* GET home page. */
 router.get('/', function(req, res, next) { 
@@ -9,7 +11,7 @@ router.get('/', function(req, res, next) {
     user:'postgres',
     host:'localhost',
     database:'ex_support',
-    password:'skylight',
+    password:dbpassword,
     port:5432
 });
 /* ここでデータベースにアクセスする */
