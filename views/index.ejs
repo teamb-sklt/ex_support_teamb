@@ -25,19 +25,21 @@
           <th>片道</th>
           <th>往復</th>
         </tr>
+        <% for(let i in message){ %> 
         <tr>
-          <td>1</td>
-          <td><input type="checkbox" name="申請" id="sinsei"></td>
-          <td>渋谷～溜池山王</td>
-          <td>電車</td>
-          <td>100</td>
-          <td>2</td>
-          <td>オフィス</td>
-          <td>メモ</td>
+          <td id="number">1</td>
+          <td id="checkbox"><input type="checkbox" name="申請" id="sinsei"></td>
+          <td id="keiro">渋谷～溜池山王</td>
+          <td id="shudan">電車</td>
+          <td id="money">100</td>
+          <td id="times">2</td>
+          <td id="job">オフィス</td>
+          <td id="memo">メモ</td>
           <td><button>詳細</button></td>
           <td><button>片道</button></td>
           <td><button>往復</button></td>
         </tr>
+        <% } %> 
       </table>
     </div>
     <div class="container">
