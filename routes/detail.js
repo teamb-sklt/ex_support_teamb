@@ -88,25 +88,26 @@ router.post('/',function(req,response,next){
         .then(res => JSON.parse(res))   //json形式のテキストをオブジェクトに変換する
         .then(res =>{
             //async function sample(){
-            //let  priceData  = res.ResultSet.Course[0].Price[0].Oneway;
-            var priceData1=[];
-            var priceData2=[];
-            for(let i in res.ResultSet.Course){
+            let  priceData  = res.ResultSet.Course[0].Price[0].Oneway;
+            //var priceData1=[];
+            //var priceData2=[];
+            console.log(priceData);
+            /*for(let i in res.ResultSet.Course){
                 priceData1[i]  = res.ResultSet.Course[i].Price;
-                console.log(i+priceData1[i]);
+                //console.log(priceData1[i]);
                 /*for(let j in res.ResultSet.Course.Price){
                     priceData2  = priceData1.Price[j].Oneway;
                     console.log(priceData2[j]);
                 }*/
-            }
-            for(let i in priceData1.Price){
+            //}
+            /*for(let i in priceData1.Price){
             priceData2[i] = priceData1.Price[i];
             };
-            console.log(priceData2);
+            console.log(priceData2);*/
             let opt = {
                 title: '詳細ページ',
                 message: '各項目を入力してください',
-                price: priceData2[0]
+                price: priceData
                 //price:'ここにAPIの戻り値を入力したい'
             };
             response.render('detail',opt);
