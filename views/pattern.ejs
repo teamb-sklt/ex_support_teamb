@@ -7,6 +7,7 @@
   <body>
     <h1>移動パターン登録</h1>
     <form action="/pattern" method="post">
+      <div class="container">
         <table class="table">
             <p>パターン名<br>
             <input type="text" name="pattern" size="10"></p>
@@ -23,25 +24,30 @@
                 <option value="taxi">タクシー</option>
                 <option value="other">その他</option>
             </select><br>
+          </div>
     </form>
-    <button>新規パターンを登録</button>
+    <input type="submit">
     <hr>
+    <div class="container">
     <h1>パターン一覧</h1>
     <table border="0">
-        <tr>
-            <th>No.</th>
-            <th>パターン名</th>
-            <th>出発地</th>
-            <th>到着地</th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>オフィス出勤</td>
-            <td>渋谷</td>
-            <td>赤坂</td>
-            <td><button>編集</button></td>
-            <td><button>削除</button></td>
-        </tr>
+      <tr>
+        <th>パターン名</th>
+        <th>出発地</th>
+        <th>到着地</th>
+        <th>金額</th>
+      </tr>
+      <% for(let i in datas) { %>
+      <tr>
+        <td><%=　datas[i].pattern  %></td>
+        <td><%=　datas[i].origin  %></td>
+        <td><%=　datas[i].destination  %></td>
+        <td><%=　datas[i].money  %></td>
+        <td><button>編集</button></td>
+        <td><button>削除</button></td>
+      </tr>
+      <% } %>
       </table>
+    </div>
   </body>
 </html>
