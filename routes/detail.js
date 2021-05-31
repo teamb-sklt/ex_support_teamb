@@ -34,7 +34,7 @@ let routeWaypoint = req.body.routeWaypoint;*/
     .then(res =>res.text()) //データをテキストに変換
     .then(res => JSON.parse(res))   //json形式のテキストをオブジェクトに変換する
     .then(res =>console.log(res.ResultSet.Point[0].Station.code))
-    .catch(err =>console.log('うんこ'));
+    .catch(err =>console.log('失敗'));
 
     //単価を取得
     fetch('https://api.ekispert.jp/v1/json/search/course/extreme?key=test_VtL3kuyWkrB&viaList=22991:22741:22828')
