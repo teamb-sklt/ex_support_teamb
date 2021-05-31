@@ -2,76 +2,10 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1>交通費メモ閲覧</h1>
-    <!-- 前月データへ移動 -->
-    <p><a href="#">前月データへ</a></p>
-    <div class="container">
-      <h2><%= section1 %></h2>
-      <button>新規パターンを追加</button>
-      <table class="table">
-        <tr>
-          <th>No.</th>
-          <th>申請</th>
-          <th>経路</th>
-          <th>手段</th>
-          <th>費用</th>
-          <th>回数</th>
-          <th>ジョブ情報</th>
-          <th>メモ</th>
-          <th>詳細</th>
-          <th>片道</th>
-          <th>往復</th>
-        </tr>
-        <% for(let i in message){ %> 
-        <tr>
-          <td id="number">1</td>
-          <td id="checkbox"><input type="checkbox" name="申請" id="sinsei"></td>
-          <td id="keiro">渋谷～溜池山王</td>
-          <td id="shudan">電車</td>
-          <td id="money">100</td>
-          <td id="times">2</td>
-          <td id="job">オフィス</td>
-          <td id="memo">メモ</td>
-          <td><button>詳細</button></td>
-          <td><button>片道</button></td>
-          <td><button>往復</button></td>
-        </tr>
-        <% } %> 
-      </table>
-    </div>
-    <div class="container">
-      <h2><%= section2 %></h2>
-      <button>新規レコードを追加</button>
-      <table class="table">
-        <tr>
-          <th>No.</th>
-          <th>申請</th>
-          <th>経路</th>
-          <th>手段</th>
-          <th>費用</th>
-          <th>回数</th>
-          <th>ジョブ情報</th>
-          <th>メモ</th>
-          <th>詳細</th>
-          <th>コピー</th>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td><input type="checkbox" name="申請" id="sinsei"></td>
-          <td>渋谷～溜池山王</td>
-          <td>電車</td>
-          <td>100</td>
-          <td>2</td>
-          <td>オフィス</td>
-          <td>メモ</td>
-          <td><button>詳細</button></td>
-          <td><button>コピー</button></td>
-        </tr>
-      </table>
-      <p><%= datas %> </p>
-    </div>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
   </body>
 </html>
