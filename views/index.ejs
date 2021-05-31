@@ -27,17 +27,22 @@
         </tr>
         <% for(let i in shuppatsu){ %> 
         <tr>
-          <td id="number"><%- i+1 %> </td>
-          <td id="checkbox"><input type="checkbox" name="申請" id="sinsei"></td>
-          <td id="keiro"><%- shuppatsu[i] %> ～<%- totyaku[i] %> </td>
-          <td id="shudan"><%- shudan[i] %> </td>
-          <td id="money"><%- money[i] %> </td>
-          <td id="times"><%- times[i] %> </td>
-          <td id="job"><%- job[i] %> </td>
-          <td id="memo"><%- memo[i] %> </td>
-          <td><a class="btn btn-primary" href="javascript:detail(<%= shuppatsu[i].id,totyaku[i],shudan[i],money[i],times[i],job[i],memo[i] %> );">詳細</a></td>
-          <td><button>片道</button></td>
-          <td><button>往復</button></td>
+          <form method="POST" action="/">
+            <div class="form-group">
+              <td id="id"><%- id[i] %> </td>
+              <td id="checkbox"><input type="checkbox" name="申請" id="sinsei"></td>
+              <td id="keiro"><%- shuppatsu[i] %> ～<%- totyaku[i] %> </td>
+              <td id="shudan"><%- shudan[i] %> </td>
+              <td id="money"><%- money[i] %> </td>
+              <td id="times"><%- times[i] %> </td>
+              <td id="job"><%- job[i] %> </td>
+              <td id="memo"><%- memo[i] %> </td>
+              <input type="hidden" name="id" value="<%- id[i] %> ">
+              <td><a class="btn btn-primary" href="javascript:detail(<%= id[i],shuppatsu[i].id,totyaku[i],shudan[i],money[i],times[i],job[i],memo[i] %> );">詳細</a></td>
+              <td><button>片道</button></td>
+              <td><button>往復</button></td>  
+            </div>
+          </form>
         </tr>
         <% } %> 
       </table>
@@ -61,7 +66,7 @@
         </tr>
         <% for(let i in shuppatsu){ %> 
         <tr>
-          <td id="number"><%- i+1 %> </td>
+          <td id="number"><%- id[i] %> </td>
           <td id="checkbox"><input type="checkbox" name="申請" id="sinsei"></td>
           <td id="date"><%- date[i] %> </td>
           <td id="keiro"><%- shuppatsu[i] %> ～<%- totyaku[i] %></td>
@@ -70,8 +75,8 @@
           <td id="times"><%- times[i] %></td>
           <td id="job"><%- job[i] %></td>
           <td id="memo"><%- memo[i] %></td>
-          <td><a class="btn btn-primary" href="javascript:detail(<%= shuppatsu[i].id,totyaku[i],shudan[i],money[i],times[i],job[i],memo[i] %> );">詳細</a></td>
-          <td><a class="btn btn-primary" href="javascript:copy(<%= shuppatsu[i].text,totyaku[i],shudan[i],money[i],times[i],job[i],memo[i] %> );">コピー</a></td>
+          <td><a class="btn btn-primary" href="javascript:detail(<%= id[i],shuppatsu[i].id,totyaku[i],shudan[i],money[i],times[i],job[i],memo[i] %> );">詳細</a></td>
+          <td><a class="btn btn-primary" href="javascript:copy(<%= id[i],shuppatsu[i].text,totyaku[i],shudan[i],money[i],times[i],job[i],memo[i] %> );">コピー</a></td>
         </tr>
         <% } %> 
       </table>
@@ -85,10 +90,10 @@
     document.getElementById("detail").onclick=function(){
       document.location="/detail";//詳細設定ページへ
     }
-    function detail(shuppatsu,totyaku,shudan,money,times,job,memo){
+    function detail(id,shuppatsu,totyaku,shudan,money,times,job,memo){
       document.location="/detail";
     }
-    function copy(shuppatsu,totyaku,shudan,money,times,job,memo){
+    function copy(id,shuppatsu,totyaku,shudan,money,times,job,memo){
       let result= window.confirm("以下のメモをコピーしますか？\n"+"経路："+shuppatsu+"~"+totyaku+"\n手段："+shudan+"\n費用："+money+"\n回数："+times+"\nジョブ情報："+job+"\nメモ："+memo);
     }
   </script>
