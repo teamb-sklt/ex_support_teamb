@@ -3,56 +3,23 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css' />
+    <style>
+      input:checked+.content{
+        color: gray;
+      }
+    </style>
   </head>
   <body>
     <h1>交通費メモ閲覧</h1>
+    <h2><%- lmonth %> 月21日～<%- tmonth %> 月20日データ</h2>
     <!-- 前月データへ移動 -->
     <p><a href="#">前月データへ</a></p>
     <div class="container">
-      <h2><%= section1 %></h2>
-      <button class="btn btn-primary" id="users">新規パターンを追加</button>
-      <table class="table">
+      <h2>交通費メモ</h2>
+      <button class="btn btn-primary" id="detail">移動レコードを追加</button>
+      <h5><br>よく使う経路</h5>
+      <table class="table table-primary">
         <tr>
-          <th>No.</th>
-          <th>申請</th>
-          <th>経路</th>
-          <th>手段</th>
-          <th>費用</th>
-          <th>回数</th>
-          <th>ジョブ情報</th>
-          <th>メモ</th>
-          <th>詳細</th>
-          <th>片道</th>
-          <th>往復</th>
-        </tr>
-        <% for(let i in shuppatsu){ %> 
-        <tr>
-          <form method="POST" action="/">
-            <div class="form-group">
-              <td id="id"><%- id[i] %> </td>
-              <td id="checkbox"><input type="checkbox" name="申請" id="sinsei"></td>
-              <td id="keiro"><%- shuppatsu[i] %> ～<%- totyaku[i] %> </td>
-              <td id="shudan"><%- shudan[i] %> </td>
-              <td id="money"><%- money[i] %> </td>
-              <td id="times"><%- times[i] %> </td>
-              <td id="job"><%- job[i] %> </td>
-              <td id="memo"><%- memo[i] %> </td>
-              <input type="hidden" name="id" value="<%- id[i] %> ">
-              <td><a class="btn btn-primary" href="javascript:detail(<%= id[i],shuppatsu[i].id,totyaku[i],shudan[i],money[i],times[i],job[i],memo[i] %> );">詳細</a></td>
-              <td><button>片道</button></td>
-              <td><button>往復</button></td>  
-            </div>
-          </form>
-        </tr>
-        <% } %> 
-      </table>
-    </div>
-    <div class="container">
-      <h2><%= section2 %></h2>
-      <button class="btn btn-primary" id="detail">新規レコードを追加</button>
-      <table class="table">
-        <tr>
-          <th>No.</th>
           <th>申請</th>
           <th>日付</th>
           <th>経路</th>
@@ -62,21 +29,64 @@
           <th>ジョブ情報</th>
           <th>メモ</th>
           <th>詳細</th>
-          <th>コピー</th>
+          <th>回数＋１</th>
         </tr>
         <% for(let i in shuppatsu){ %> 
         <tr>
-          <td id="number"><%- id[i] %> </td>
-          <td id="checkbox"><input type="checkbox" name="申請" id="sinsei"></td>
-          <td id="date"><%- date[i] %> </td>
-          <td id="keiro"><%- shuppatsu[i] %> ～<%- totyaku[i] %></td>
-          <td id="shudan"><%- shudan[i] %></td>
-          <td id="money"><%- money[i] %></td>
-          <td id="times"><%- times[i] %></td>
-          <td id="job"><%- job[i] %></td>
-          <td id="memo"><%- memo[i] %></td>
-          <td><a class="btn btn-primary" href="javascript:detail(<%= id[i],shuppatsu[i].id,totyaku[i],shudan[i],money[i],times[i],job[i],memo[i] %> );">詳細</a></td>
-          <td><a class="btn btn-primary" href="javascript:copy(<%= id[i],shuppatsu[i].text,totyaku[i],shudan[i],money[i],times[i],job[i],memo[i] %> );">コピー</a></td>
+          <form method="POST" action="/">
+            <div class="form-group">
+              <td id="checkbox0"><input type="checkbox" name="申請" id="sinsei"></td>
+              <td id="date"><%- date[i] %> </td>
+              <td id="keiro"><%- shuppatsu[i] %> ～<%- totyaku[i] %> </td>
+              <td id="shudan"><%- shudan[i] %> </td>
+              <td id="money"><%- money[i] %> </td>
+              <td id="times"><%- times[i] %> </td>
+              <td id="job"><%- job[i] %> </td>
+              <td id="memo"><%- memo[i] %> </td>
+              <input type="hidden" name="id" value="<%- id[i] %> ">
+              <input type="hidden" name="shuppatsu" value="<%- shuppatsu[i] %> ">
+              <input type="hidden" name="totyaku" value="<%- totyaku[i] %> ">
+              <input type="hidden" name="shudan" value="<%- shudan[i] %> ">
+              <input type="hidden" name="money" value="<%- money[i] %> ">
+              <input type="hidden" name="times" value="<%- times[i] %> ">
+              <input type="hidden" name="job" value="<%- job[i] %> ">
+              <input type="hidden" name="memo" value="<%- memo[i] %> ">
+              <td><a class="btn btn-secondary" name="detail" href="javascript:detail(<%= id[i],shuppatsu[i].id,totyaku[i],shudan[i],money[i],times[i],job[i],memo[i] %> );">詳細</a></td>
+              <td><button class="btn btn-secondary" name="oneway">＋１</button></td>
+            </div>
+          </form>
+        </tr>
+        <% } %> 
+      </table>
+    </div>
+    <div class="container">
+      <table class="table">
+        <tr>
+          <th>申請</th>
+          <th>日付</th>
+          <th>経路</th>
+          <th>手段</th>
+          <th>費用</th>
+          <th>回数</th>
+          <th>ジョブ情報</th>
+          <th>メモ</th>
+          <th>詳細</th>
+          <th>回数＋１</th>
+        </tr>
+        <% for(let i in shuppatsu){ %> 
+        <tr>
+          <td id="checkbox1"><input type="checkbox" name="申請" id="sinsei"></td>
+          <div class="content">
+            <td id="date"><%- date[i] %> </td>
+            <td id="keiro"><%- shuppatsu[i] %> ～<%- totyaku[i] %></td>
+            <td id="shudan"><%- shudan[i] %></td>
+            <td id="money"><%- money[i] %></td>
+            <td id="times"><%- times[i] %></td>
+            <td id="job"><%- job[i] %></td>
+            <td id="memo"><%- memo[i] %></td>  
+          </div>
+          <td><a class="btn btn-secondary" name="detail" href="javascript:detail(<%= id[i],shuppatsu[i].id,totyaku[i],shudan[i],money[i],times[i],job[i],memo[i] %> );">詳細</a></td>
+          <td><button class="btn btn-secondary" name="oneway">＋１</button></td>
         </tr>
         <% } %> 
       </table>
@@ -84,7 +94,7 @@
   </body>
   <script>
     'use strict';
-    document.getElementById("users").onclick=function(){
+    document.getElementById("pattern").onclick=function(){
       document.location="/pattern";//ユーザー設定ページへ
     }
     document.getElementById("detail").onclick=function(){
