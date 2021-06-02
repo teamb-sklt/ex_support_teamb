@@ -7,31 +7,49 @@
     href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css' />
   </head>
   <body class= 'container p-3'>
-    <h1><%= title %></h1>
-    <p class='h4'><%- message %></p>
+    <h1 class = "text-center display-4 p-4"><%= title %></h1>
+    <p class='text-center h4'><%- message %></p><br>
     <form method="POST" action="/detail">
         <div class='form-group'>
-            <label for='date'>日付</label> 
-            <input type="datetime-local" class='form-control' name='date' required>
+            <div class='form-row'>
+                <div class="form-group col-4">
+                    <label for='date'>日付 ※yyyymmdd</label> 
+                    <input type="text" class='form-control' name='date' id='date' required>
+                </div>
+                <div class="form-group col-4">
+                    <label for='time'>時刻 ※hhmm</label> 
+                    <input type="text" class='form-control' name='time'  id='time' required>
+                    <!--<input type="datetime-local" class='form-control' name='date'  id='date' value="" required>-->  
+                </div>
+            </div>
         </div>
         <div class='form-group'>
-            <label for='route'>経路</label> 
-            <input type="text" class='form-control' name='routeStart' id='routeStart' required>
-            <p>～</p>
-            <input type="text" class='form-control' name='routeGoal' id='routeGoal' required>
-        </div>
-        <div class='form-group'>
-            <label for='route'>経由地</label> 
-            <input type="text" class='form-control' name='routeWaypoint' id='routeWaypoint'>
+            <div class='form-row'>
+                <div class="form-group col-4">
+                    <label for='route'>出発地</label> 
+                    <input type="text" class='form-control' name='routeStart' id='routeStart' value='<%= sStart%>' required placeholder="必須">
+                </div>
+                <div class="form-group col-4">
+                    <label for='route'>経由地</label> 
+                    <input type="text" class='form-control' name='routeWaypoint' id='routeWaypoint' value='<%= sWaypoint%>' placeholder="省略可">
+                </div>
+                <div class="form-group col-4">
+                    <label for='route'>目的地</label> 
+                    <input type="text" class='form-control' name='routeGoal' id='routeGoal' value='<%= sGoal%>' required placeholder="必須">
+                </div>
+            </div>
         </div>
         <div>
-            <input type="submit" value="検索">
+            <input type="submit" value="検索" class="btn btn-primary" name='search'><br><br>
             <!--<button onclick="searchPrice()" class="btn btn-primary">調べよう</button>-->
         </div>
-    </form>
         <div class='form-group'>
-            <label for='way'>手段</label> 
-            <select id='way'>
+            <label for='price'>運賃（ICカード利用時）</label> 
+            <p id='price' style="color:red" name='price' class="lead"><%- price%></p>
+        </div>
+        <div class='form-group'>
+            <label for='way'>手段</label> <br>
+            <select id='way' name='way'>
                 <option>電車</option>
                 <option>バス</option>
                 <option>タクシー</option>
@@ -39,48 +57,47 @@
             </select>
         </div>
         <div class='form-group'>
-            <label for='price'>単価</label> 
-            <p id='price'><%- price%> </p>
-        </div>
-        <div class='form-group'>
             <label for='times'>回数</label> 
-            <input type="text" class='form-control' id='times'>
+                <input type="number" class='form-control' value='1' min='1' id='times' name='times'>
         </div>
         <div class='form-group'>
             <label for='memo'>メモ</label> 
-            <input type="text" class='form-control' id='memo'>
+            <input type="text" class='form-control' id='memo' name='memo' placeholder="ジョブ情報などを入力してください">
+        </div>
+        <div class='form-group'>
+            <label for='moveDate'>EX用備考欄</label> 
+            <input type="text" class='form-control' id='moveDate' name='moveDate' <%- moveDate%>>
+        </div>
+        <div class='form-group'>
+            <label for='regularly'><input type="checkbox" class='big' id='regularly' name='regularly'>「よく使う経路」に登録する</label> 
         </div>
         <div>
-            <input type="submit" id="btn-delete" value="削除" />
-            <input type="submit" id="btn-save" value="保存" />
+            <input type="submit" id="btn-return" value="戻る" class="btn btn-primary" onclick="frameClick();">
+            <input type="submit" id="btn-save" value="保存" class="btn btn-primary" name='save'>
+            <input type="submit" id="btn-delete" value="削除" class="btn btn-primary" name='delete'>
         </div>
-    <!--<script type="text/javascript">
+    </form>
+    <script type="text/javascript">
 
         'use strict'
-        function searchPrice(){
 
-            //入力された情報を取得
-            const routeStart = document.getElementById('routeStart').value;
-            const routeGoal = document.getElementById('routeGoal').value;
-            const routeWaypoint = document.getElementById('routeWaypoint').value;
+        //戻るボタンでindex.jsに遷移
+        function frameClick() {
+            document.location.href = 'http://localhost:3000/';
+        };
 
-            let baseUrl = 'https://api.ekispert.jp/v1/json/';
-            let seachUrl = 'search/course/extreme?';   
+        //日付・時刻の初期値の設定
+        var date = new Date();
+        date.setDate(date.getDate());
+        var yyyy = date.getFullYear();
+        var mm = ("0"+(date.getMonth()+1)).slice(-2);
+        var dd = ("0"+date.getDate()).slice(-2);
+        var hours = ("0"+date.getHours()).slice(-2);
+        var minutes = ("0"+date.getMinutes()).slice(-2);
+        document.getElementById("date").value=yyyy+mm+dd;
+        document.getElementById("time").value=hours+minutes;
 
-            let accessKey = 'key=test_VtL3kuyWkrB';
-            let station ='&viaList=22991:22828'; //+routeStart +':' +routeWaypoint +':' +routeGoal;
 
-            let stationUrl = `${baseUrl}${seachUrl}${accessKey}${station}`; 
-
-            fetch(stationUrl)
-            .then(res =>{
-                console.log('成功');
-                //document.getElementById('price').textContent = res.ResultSet.Course.Price.Oneway;
-                })
-            .catch(err =>{
-                console.log('失敗')
-            });
-        }
-    </script>-->
+    </script>
   </body>
 </html>
