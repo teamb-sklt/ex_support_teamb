@@ -26,14 +26,26 @@ var money=[];
 var times=[];
 var job=[];
 var memo=[];
+var id2=[];
+var date02=[];
+var month2=[];
+var date2=[];
+var shuppatsu2=[];
+var totyaku2=[];
+var keiyu2=[];
+var shudan2=[];
+var money2=[];
+var times2=[];
+var job2=[];
+var memo2=[];
 /* GET home page. */
-router.get('/', function(req, res, next) { 
+router.get('/', async function(req, res, next) { 
   /* データベース呼び出しのための宣言（恐らくこれでuser_dataとkotsuhi_memoの両方使える） */
   var client=new Client({
     user:'postgres',
     host:'localhost',
     database:'ex_support',
-    password:dbpassword,
+    password:'skylight',
     port:5432
 });
 
@@ -42,7 +54,7 @@ client.connect(async function(err, client) {
   if (err) {
     console.log(err); //エラー時にコンソールに表示
   } else {
-    client.query('SELECT * FROM kotsuhi_memo', function (err, result) {  //第１引数にSQL
+    client.query('SELECT * FROM kotsuhi_memo WHERE ptn_toroku_flg = 1', function (err, result) {  //第１引数にSQL
      
       for(var i in result.rows){
         id[i]=result.rows[i].memo_no;
@@ -60,55 +72,81 @@ client.connect(async function(err, client) {
       }
       
     });
+    client.query('SELECT * FROM kotsuhi_memo WHERE ptn_toroku_flg = 0', function (err, result) {  //第１引数にSQL     
+      for(var i in result.rows){
+        id2[i]=result.rows[i].memo_no;
+        date02[i]=result.rows[i].memo_ymd;
+        month2[i]=date02[i].getMonth()+1;
+        date2[i]=date02[i].getDate();
+        shuppatsu2[i]=result.rows[i].shuppatsu_nm;
+        totyaku2[i]=result.rows[i].totyaku_nm;
+        keiyu2[i]=result.rows[i].keiyu_nm;
+        shudan2[i]=result.rows[i].shudan_nm;
+        money2[i]=result.rows[i].memo_kingaku;
+        times2[i]=result.rows[i].times;
+        job2[i]=result.rows[i].job_memo;
+        memo2[i]=result.rows[i].biko_memo;
+      }      
+    });
+    let opt={
+      title: '交通費メモ',
+      tmonth:tmonth,
+      lmonth:lmonth,
+      id:id,
+      // date:month+'/'+date,
+      date:date0,
+      shuppatsu: shuppatsu,
+      totyaku:totyaku,
+      keiyu:keiyu,
+      shudan:shudan,
+      money:money,
+      times:times,
+      job:job,
+      memo:memo,
+      id2:id2,
+      // date2:month2+'/'+date2,
+      date2:date02,
+      shuppatsu2: shuppatsu2,
+      totyaku2:totyaku2,
+      keiyu2:keiyu2,
+      shudan2:shudan2,
+      money2:money2,
+      times2:times2,
+      job2:job2,
+      memo2:memo2
+    }
+    res.render('index', opt);
   }
 });
-res.render('index', {
-  title: '交通費メモ',
-  tmonth:tmonth,
-  lmonth:lmonth,
-  id:id,
-  date:month+'/'+date,
-  shuppatsu: shuppatsu, //引き出したデータ
-  totyaku:totyaku,
-  keiyu:keiyu,
-  shudan:shudan,
-  money:money,
-  times:times,
-  job:job,
-  memo:memo
 });
 
-});
-
-router.post('/',function(req,res,next){
-  var id1=req.body.id;
-  console.log(req.body);
+//+1を押すとき
+router.post('/',async function(req,res,next){
+  let id3=req.body.id;
+  let shuppatsu3=req.body.shuppatsu;
+  let totyaku3=req.body.totyaku;
+  let shudan3=req.body.shudan;
+  let money3=req.body.money;
+  let times3=req.body.times;
+  let job3=req.body.job;
+  let memo3=req.body.memo;
+  console.log(id3+shuppatsu3+totyaku3+shudan3+money3+times3+job3+memo3);
   var client=new Client({
     user:'postgres',
     host:'localhost',
     database:'ex_support',
-    password:dbpassword,
+    password:'skylight',
     port:5432
 });
 /* ここでデータベースにアクセスする */
-client.connect( function(err, client) {
-  client.query("update kotsuhi_memo set times=times+1,biko_memo=biko_memo+"+today.getMonth()+"/"+today.getDate()+" where id="+id1);
+client.connect(async function(err, client) {
   if (err) {
     console.log(err); //エラー時にコンソールに表示
   } else {
-    client.query('SELECT * FROM kotsuhi_memo', function (err, result) {  //第１引数にSQL
-      var id=[];
-      var date0=[];
-      var month=[];
-      var date=[];
-      var shuppatsu=[];
-      var totyaku=[];
-      var keiyu=[];
-      var shudan=[];
-      var money=[];
-      var times=[];
-      var job=[];
-      var memo=[];
+    // client.query("UPDATE kotsuhi_memo SET times=times+1 AND biko_memo=biko_memo+ ,"+today.getMonth()+"/"+today.getDate()+" where memo_no="+id2);
+    client.query("UPDATE kotsuhi_memo SET times=times+1 WHERE memo_no="+id3);
+    client.query('SELECT * FROM kotsuhi_memo WHERE ptn_toroku_flg = 1', function (err, result) {  //第１引数にSQL
+     
       for(var i in result.rows){
         id[i]=result.rows[i].memo_no;
         date0[i]=result.rows[i].memo_ymd;
@@ -123,25 +161,70 @@ client.connect( function(err, client) {
         job[i]=result.rows[i].job_memo;
         memo[i]=result.rows[i].biko_memo;
       }
-      res.render('index', {
-        title: '交通費メモ',
-        id:id,
-        date:month+'/'+date,
-        shuppatsu: shuppatsu, //引き出したデータ
-        totyaku:totyaku,
-        keiyu:keiyu,
-        shudan:shudan,
-        money:money,
-        times:times,
-        job:job,
-        memo:memo
-      });
-      // console.log(result); //コンソール上での確認用なため、この1文は必須ではない。
+      
     });
+    await client.query('SELECT * FROM kotsuhi_memo WHERE ptn_toroku_flg = 0', function (err, result) {  //第１引数にSQL     
+      for(var i in result.rows){
+        id2[i]=result.rows[i].memo_no;
+        date02[i]=result.rows[i].memo_ymd;
+        month2[i]=date02[i].getMonth()+1;
+        date2[i]=date02[i].getDate();
+        shuppatsu2[i]=result.rows[i].shuppatsu_nm;
+        totyaku2[i]=result.rows[i].totyaku_nm;
+        keiyu2[i]=result.rows[i].keiyu_nm;
+        shudan2[i]=result.rows[i].shudan_nm;
+        money2[i]=result.rows[i].memo_kingaku;
+        times2[i]=result.rows[i].times;
+        job2[i]=result.rows[i].job_memo;
+        memo2[i]=result.rows[i].biko_memo;
+      }      
+    });
+    let opt={
+      title: '交通費メモ',
+      tmonth:tmonth,
+      lmonth:lmonth,
+      id:id,
+      date:month+'/'+date,
+      shuppatsu: shuppatsu,
+      totyaku:totyaku,
+      keiyu:keiyu,
+      shudan:shudan,
+      money:money,
+      times:times,
+      job:job,
+      memo:memo,
+      id2:id2,
+      date2:month2+'/'+date2,
+      shuppatsu2: shuppatsu2,
+      totyaku2:totyaku2,
+      keiyu2:keiyu2,
+      shudan2:shudan2,
+      money2:money2,
+      times2:times2,
+      job2:job2,
+      memo2:memo2
+    }
+    res.render('index', opt);
   }
 });
+});
 
+//詳細を押すとき
+router.post('/detail',async function(req,res,next){
+  let id=req.body.id;
+  let shuppatsu=req.body.shuppatsu;
+  let totyaku=req.body.totyaku;
+  let shudan=req.body.shudan;
+  let money=req.body.money;
+  let times=req.body.times;
+  let job=req.body.job;
+  let memo=req.body.memo;
+  console.log(id+shuppatsu+totyaku+shudan+money+times+job+memo);
+  res.render('detail', {
+    title: '詳細ページ',
+    message: '各項目を入力してください',
+    price: 'ここに料金を表示'
+  });
 });
 
 module.exports = router;
-

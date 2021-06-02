@@ -37,7 +37,7 @@
             <div class="form-group">
               <td id="checkbox0"><input type="checkbox" name="申請" id="sinsei"></td>
               <td id="date"><%- date[i] %> </td>
-              <td id="keiro"><%- shuppatsu[i] %> ～<%- totyaku[i] %> </td>
+              <td id="keiro"><%- shuppatsu[i] %> ～<%- totyaku2[i] %> </td>
               <td id="shudan"><%- shudan[i] %> </td>
               <td id="money"><%- money[i] %> </td>
               <td id="times"><%- times[i] %> </td>
@@ -73,20 +73,40 @@
           <th>詳細</th>
           <th>回数＋１</th>
         </tr>
-        <% for(let i in shuppatsu){ %> 
+        <% for(let i in shuppatsu2){ %> 
         <tr>
           <td id="checkbox1"><input type="checkbox" name="申請" id="sinsei"></td>
           <div class="content">
-            <td id="date"><%- date[i] %> </td>
-            <td id="keiro"><%- shuppatsu[i] %> ～<%- totyaku[i] %></td>
-            <td id="shudan"><%- shudan[i] %></td>
-            <td id="money"><%- money[i] %></td>
-            <td id="times"><%- times[i] %></td>
-            <td id="job"><%- job[i] %></td>
-            <td id="memo"><%- memo[i] %></td>  
-          </div>
-          <td><a class="btn btn-secondary" name="detail" href="javascript:detail(<%= id[i],shuppatsu[i].id,totyaku[i],shudan[i],money[i],times[i],job[i],memo[i] %> );">詳細</a></td>
-          <td><button class="btn btn-secondary" name="oneway">＋１</button></td>
+            <td id="date"><%- date2[i] %> </td>
+            <td id="keiro"><%- shuppatsu2[i] %> ～<%- totyaku2[i] %></td>
+            <td id="shudan"><%- shudan2[i] %></td>
+            <td id="money"><%- money2[i] %></td>
+            <td id="times"><%- times2[i] %></td>
+            <td id="job"><%- job2[i] %></td>
+            <td id="memo"><%- memo2[i] %></td>  
+          </div>  
+          <form method="POST" action="/detail">
+            <input type="hidden" name="id" value="<%- id2[i] %> ">
+            <input type="hidden" name="shuppatsu" value="<%- shuppatsu2[i] %> ">
+            <input type="hidden" name="totyaku" value="<%- totyaku2[i] %> ">
+            <input type="hidden" name="shudan" value="<%- shudan2[i] %> ">
+            <input type="hidden" name="money" value="<%- money2[i] %> ">
+            <input type="hidden" name="times" value="<%- times2[i] %> ">
+            <input type="hidden" name="job" value="<%- job2[i] %> ">
+            <input type="hidden" name="memo" value="<%- memo2[i] %> ">
+            <td><input type="submit" class="btn btn-secondary" value="詳細"></td>
+          </form>
+          <form action="/" method="post">
+            <input type="hidden" name="id" value="<%- id2[i] %> ">
+            <input type="hidden" name="shuppatsu" value="<%- shuppatsu2[i] %> ">
+            <input type="hidden" name="totyaku" value="<%- totyaku2[i] %> ">
+            <input type="hidden" name="shudan" value="<%- shudan2[i] %> ">
+            <input type="hidden" name="money" value="<%- money2[i] %> ">
+            <input type="hidden" name="times" value="<%- times2[i] %> ">
+            <input type="hidden" name="job" value="<%- job2[i] %> ">
+            <input type="hidden" name="memo" value="<%- memo2[i] %> ">
+            <td><input type="submit" class="btn btn-secondary" value="+1"></td>  
+          </form>
         </tr>
         <% } %> 
       </table>
@@ -94,14 +114,8 @@
   </body>
   <script>
     'use strict';
-    document.getElementById("pattern").onclick=function(){
-      document.location="/pattern";//ユーザー設定ページへ
-    }
     document.getElementById("detail").onclick=function(){
       document.location="/detail";//詳細設定ページへ
-    }
-    function detail(id,shuppatsu,totyaku,shudan,money,times,job,memo){
-      document.location="/detail";
     }
     function copy(id,shuppatsu,totyaku,shudan,money,times,job,memo){
       let result= window.confirm("以下のメモをコピーしますか？\n"+"経路："+shuppatsu+"~"+totyaku+"\n手段："+shudan+"\n費用："+money+"\n回数："+times+"\nジョブ情報："+job+"\nメモ："+memo);
