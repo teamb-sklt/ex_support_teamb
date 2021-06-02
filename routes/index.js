@@ -46,7 +46,8 @@ router.get('/', async function(req, res, next) {
     host:'localhost',
     database:'ex_support',
     password:'skylight',
-    port:5432
+    port:5432,
+    dateStrings:'date'
 });
 
 /* ここでデータベースにアクセスする */
@@ -54,7 +55,7 @@ client.connect(async function(err, client) {
   if (err) {
     console.log(err); //エラー時にコンソールに表示
   } else {
-    client.query('SELECT * FROM kotsuhi_memo WHERE ptn_toroku_flg = 1', function (err, result) {  //第１引数にSQL
+    client.query("SELECT * FROM kotsuhi_memo WHERE ptn_toroku_flg = 1", function (err, result) {  //第１引数にSQL
      
       for(var i in result.rows){
         id[i]=result.rows[i].memo_no;
@@ -70,9 +71,9 @@ client.connect(async function(err, client) {
         job[i]=result.rows[i].job_memo;
         memo[i]=result.rows[i].biko_memo;
       }
-      
+      console.log(date0);
     });
-    client.query('SELECT * FROM kotsuhi_memo WHERE ptn_toroku_flg = 0', function (err, result) {  //第１引数にSQL     
+    client.query("SELECT * FROM kotsuhi_memo WHERE ptn_toroku_flg = 0", function (err, result) {  //第１引数にSQL     
       for(var i in result.rows){
         id2[i]=result.rows[i].memo_no;
         date02[i]=result.rows[i].memo_ymd;
@@ -86,15 +87,17 @@ client.connect(async function(err, client) {
         times2[i]=result.rows[i].times;
         job2[i]=result.rows[i].job_memo;
         memo2[i]=result.rows[i].biko_memo;
-      }      
+      } 
+      console.log(date02);     
     });
     let opt={
       title: '交通費メモ',
       tmonth:tmonth,
       lmonth:lmonth,
       id:id,
-      // date:month+'/'+date,
-      date:date0,
+      month:month,
+      date:date,
+      date0:date0,
       shuppatsu: shuppatsu,
       totyaku:totyaku,
       keiyu:keiyu,
@@ -104,8 +107,9 @@ client.connect(async function(err, client) {
       job:job,
       memo:memo,
       id2:id2,
-      // date2:month2+'/'+date2,
-      date2:date02,
+      month2:month2,
+      date2:date2,
+      date02:date02,
       shuppatsu2: shuppatsu2,
       totyaku2:totyaku2,
       keiyu2:keiyu2,
@@ -145,7 +149,7 @@ client.connect(async function(err, client) {
   } else {
     // client.query("UPDATE kotsuhi_memo SET times=times+1 AND biko_memo=biko_memo+ ,"+today.getMonth()+"/"+today.getDate()+" where memo_no="+id2);
     client.query("UPDATE kotsuhi_memo SET times=times+1 WHERE memo_no="+id3);
-    client.query('SELECT * FROM kotsuhi_memo WHERE ptn_toroku_flg = 1', function (err, result) {  //第１引数にSQL
+    client.query("SELECT * FROM kotsuhi_memo WHERE ptn_toroku_flg = 1", function (err, result) {  //第１引数にSQL
      
       for(var i in result.rows){
         id[i]=result.rows[i].memo_no;
@@ -163,7 +167,7 @@ client.connect(async function(err, client) {
       }
       
     });
-    await client.query('SELECT * FROM kotsuhi_memo WHERE ptn_toroku_flg = 0', function (err, result) {  //第１引数にSQL     
+    await client.query("SELECT * FROM kotsuhi_memo WHERE ptn_toroku_flg = 0", function (err, result) {  //第１引数にSQL     
       for(var i in result.rows){
         id2[i]=result.rows[i].memo_no;
         date02[i]=result.rows[i].memo_ymd;
@@ -184,7 +188,9 @@ client.connect(async function(err, client) {
       tmonth:tmonth,
       lmonth:lmonth,
       id:id,
-      date:month+'/'+date,
+      month:month,
+      date:date,
+      date0:date0,
       shuppatsu: shuppatsu,
       totyaku:totyaku,
       keiyu:keiyu,
@@ -194,7 +200,9 @@ client.connect(async function(err, client) {
       job:job,
       memo:memo,
       id2:id2,
-      date2:month2+'/'+date2,
+      month2:month2,
+      date2,date2,
+      date02:date02,
       shuppatsu2: shuppatsu2,
       totyaku2:totyaku2,
       keiyu2:keiyu2,
