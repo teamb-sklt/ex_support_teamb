@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+
 var{Client}=require('pg');  //データベースを使うための宣言
 const dbpassword = process.env.DBPW //DBを使うのに必要
 const apiKey = process.env.APIKEY //APIkeyを使うのに必要
@@ -144,4 +145,3 @@ client.connect( function(err, client) {
 });
 
 module.exports = router;
-
