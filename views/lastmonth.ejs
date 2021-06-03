@@ -16,7 +16,7 @@
     <h1 class="mt-3 mb-3"><%= title %> </h1>
     <h2><%- lmonth %> 月21日～<%- tmonth %> 月20日データ</h2>
     <!-- 前月データへ移動 -->
-    <p><a href="/lastmonth">前月データへ</a></p>
+    <p><a href="/">今月データへ</a></p>
     <div class="container">
       <h2>交通費メモ</h2>
       <button class="btn btn-primary" id="detail">移動レコードを追加</button>
@@ -32,7 +32,7 @@
           <th>ジョブ情報</th>
           <th>メモ</th>
           <th>詳細</th>
-          <th>回数＋１</th>
+          <th>今月も使用</th>
         </tr>
         <% for(let i in shuppatsu){ %> 
         <tr>
@@ -70,7 +70,8 @@
             <input type="hidden" name="times" value="<%- times[i] %> ">
             <input type="hidden" name="job" value="<%- job[i] %> ">
             <input type="hidden" name="memo" value="<%- memo[i] %> ">
-            <td><input type="submit" class="btn btn-secondary" name="count" value="+1"></td>  
+            <input type="hidden" name="ptn" value="<%- ptn[i] %> ">
+            <td><input type="submit" class="btn btn-secondary" name="count" value="今月も使用"></td>  
           </form>
         </tr>
         <% } %> 
@@ -88,7 +89,7 @@
           <th>ジョブ情報</th>
           <th>メモ</th>
           <th>詳細</th>
-          <th>回数＋１</th>
+          <th>今月も使用</th>
         </tr>
         <% for(let i in shuppatsu2){ %> 
         <tr>
@@ -126,7 +127,8 @@
             <input type="hidden" name="times" value="<%- times2[i] %> ">
             <input type="hidden" name="job" value="<%- job2[i] %> ">
             <input type="hidden" name="memo" value="<%- memo2[i] %> ">
-            <td><input type="submit" class="btn btn-secondary" name="count" value="+1"></td>  
+            <input type="hidden" name="ptn" value="<%- ptn2[i] %> ">
+            <td><input type="submit" class="btn btn-secondary" name="count" value="今月も使用"></td>  
           </form>
         </tr>
         <% } %> 
