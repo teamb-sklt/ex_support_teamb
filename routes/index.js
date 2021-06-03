@@ -218,6 +218,7 @@ client.connect(async function(err, client) {
 });
 });
 
+/*
 //詳細を押すとき
 router.post('/detail',async function(req,res,next){
   let id=req.body.id;
@@ -235,5 +236,6 @@ router.post('/detail',async function(req,res,next){
     price: 'ここに料金を表示'
   });
 });
+*/
 
 module.exports = router;

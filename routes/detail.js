@@ -23,7 +23,7 @@ router.get('/',function(req,res,next){
     let opt = {
         title: '詳細ページ',
         message: '各項目を入力してください',
-        price: 'ここに料金が表示されます',
+        price: 'placeholder="自動計算（ICカード利用時料金）"',
         moveDate:'placeholder="移動した日付・時刻が自動で追加されます"',
         date:'',
         sStart: '',
@@ -134,20 +134,34 @@ router.post('/',function(req,response,next){
                 let opt = {
                     title: '運賃が計算できました！',
                     message: '続けて各項目を記入し、保存してください',
-                    price: target.Oneway+'円',
-                    moveDate: 'value='+'"'+req.body.date+'"',
-                    date:req.body.date,
+                    price: 'value=' +'"' +target.Oneway +'円' +'"',
+                    moveDate: 'value='+'"'+req.body.date.substring(4)+'"', //データベースの値+この式でいけそう
+                    date: req.body.date,
                     sStart: req.body.routeStart,
                     sWaypoint: req.body.routeWaypoint,
-                    sGoal: req.body.routeGoal,
-                    complete:''
+                    sGoal: req.body.routeGoal
                 };
 
                 //renderする
                 response.render('detail',opt);
             })
             .catch(err =>{
-                console.log('失敗4')});
+
+                //renderする際のオプションを定義
+                let opt = {
+                    title: 'Error',
+                    message: "運賃が計算できませんでした<br>日付・時刻は半角数字、駅名は正しい名前を入力してください",
+                    price: 'placeholder="自動計算（ICカード利用時料金）"',
+                    moveDate: 'placeholder="移動した日付・時刻が自動で追加されます"', 
+                    date: '',
+                    sStart: '',
+                    sWaypoint: '',
+                    sGoal: ''
+                };
+
+                //renderする
+                response.render('detail',opt);
+            });
         }
         
         //すべてのAPI関数を呼び出して関数に定義（非同期を同期のように処理）
@@ -204,13 +218,12 @@ router.post('/',function(req,response,next){
         let opt = {
             title: '保存できました！',
             message: '続けて検索する場合はそのまま各項目を入力してください',
-            price: 'ここに料金が表示されます',
+            price: 'placeholder="自動計算（ICカード利用時料金）"',
             moveDate:'placeholder="移動した日付・時刻が自動で追加されます"',
             date:'',
             sStart: '',
             sWaypoint: '',
             sGoal: '',
-            complete:'保存完了'
         };
         response.render('detail', opt);
     }
@@ -244,13 +257,12 @@ router.post('/',function(req,response,next){
         let opt = {
             title: '削除できました！',
             message: '続けて検索する場合はそのまま各項目を入力してください',
-            price: 'ここに料金が表示されます',
+            price: 'placeholder="自動計算（ICカード利用時料金）"',
             moveDate:'placeholder="移動した日付・時刻が自動で追加されます"',
             date:'',
             sStart: '',
             sWaypoint: '',
-            sGoal: '',
-            complete:'保存完了'
+            sGoal: ''
         };
 
         response.render('detail', opt);
