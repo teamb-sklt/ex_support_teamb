@@ -216,6 +216,5 @@ router.post('/detail',async function(req,res,next){
   });
  }
 });
-*/
 
 module.exports = router;
