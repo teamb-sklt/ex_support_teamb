@@ -190,7 +190,8 @@ if(req.body.count){
 }
 });
 
-// 詳細を押すとき
+
+//詳細を押すとき
 router.post('/detail',async function(req,res,next){
  if(req.body.detail){
   let id=req.body.id;
@@ -215,5 +216,6 @@ router.post('/detail',async function(req,res,next){
   });
  }
 });
+*/
 
 module.exports = router;
