@@ -199,7 +199,7 @@ router.post('/',function(req,response,next){
         let dMemo = req.body.memo;
         let dPattern = req.body.regularly;
         let dShinsei =1;
-        let dMovedate = req.body.moveDate;
+        let dMovedate = req.body.date;
         let dUpdate =req.body.date;
 
         //インサートコマンドを定義
