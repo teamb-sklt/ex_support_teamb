@@ -11,11 +11,11 @@ var todate=today.getDate();
 var tmonth;
 var lmonth;
 if(today.getDate()>20){
-  tmonth=today.getMonth()+2;
-  lmonth=today.getMonth()+1;
-}else{
   tmonth=today.getMonth()+1;
   lmonth=today.getMonth();
+}else{
+  tmonth=today.getMonth();
+  lmonth=today.getMonth()-1;
 }
 var id=[];
 var date0=[];
@@ -30,6 +30,7 @@ var times=[];
 var job=[];
 var memo=[];
 var shinsei=[];
+var ptn=[];
 var id2=[];
 var date02=[];
 var month2=[];
@@ -43,6 +44,7 @@ var times2=[];
 var job2=[];
 var memo2=[];
 var shinsei2=[];
+var ptn2=[];
 /* GET home page. */
 router.get('/', async function(req, res, next) { 
   /* データベース呼び出しのための宣言（恐らくこれでuser_dataとkotsuhi_memoの両方使える） */
@@ -50,7 +52,7 @@ router.get('/', async function(req, res, next) {
     user:'postgres',
     host:'localhost',
     database:'ex_support',
-    password:'shoji2324',
+    password:'skylight',
     port:5432,
     dateStrings:'date'
 });
@@ -60,7 +62,7 @@ client.connect(async function(err, client) {
   if (err) {
     console.log(err); //エラー時にコンソールに表示
   } else {
-    client.query("SELECT * FROM kotsuhi_memo WHERE ptn_toroku_flg = 1 and (memo_ymd between '2021-05-21' AND '2021-06-20')", function (err, result) {  //第１引数にSQL
+    client.query("SELECT * FROM kotsuhi_memo WHERE ptn_toroku_flg = 1 and (memo_ymd between '2021-04-21' AND '2021-05-20')", function (err, result) {  //第１引数にSQL
      
       for(var i in result.rows){
         id[i]=result.rows[i].memo_no;
@@ -75,6 +77,7 @@ client.connect(async function(err, client) {
         times[i]=result.rows[i].times;
         job[i]=result.rows[i].job_memo;
         memo[i]=result.rows[i].biko_memo;
+        ptn[i]=1;
         // shinsei[i]=result.rows[i].shinsei_flg;
         if(result.rows[i].shinsei_flg===1){
           shinsei[i]='done';
@@ -84,7 +87,7 @@ client.connect(async function(err, client) {
       }
       console.log(date0);
     });
-    client.query("SELECT * FROM kotsuhi_memo WHERE ptn_toroku_flg = 0 and (memo_ymd between '2021-05-21' AND '2021-06-20')", function (err, result) {  //第１引数にSQL     
+    client.query("SELECT * FROM kotsuhi_memo WHERE ptn_toroku_flg = 0 and (memo_ymd between '2021-04-21' AND '2021-05-20')", function (err, result) {  //第１引数にSQL     
       for(var i in result.rows){
         id2[i]=result.rows[i].memo_no;
         date02[i]=result.rows[i].memo_ymd;
@@ -98,6 +101,7 @@ client.connect(async function(err, client) {
         times2[i]=result.rows[i].times;
         job2[i]=result.rows[i].job_memo;
         memo2[i]=result.rows[i].biko_memo;
+        ptn2[i]=0;
         if(result.rows[i].shinsei_flg===1){
           shinsei2[i]='done';
         }else{
@@ -122,6 +126,7 @@ client.connect(async function(err, client) {
       times:times,
       job:job,
       memo:memo,
+      ptn:ptn,
       shinsei:shinsei,
       id2:id2,
       month2:month2,
@@ -135,14 +140,15 @@ client.connect(async function(err, client) {
       times2:times2,
       job2:job2,
       memo2:memo2,
-      shinsei2:shinsei2
+      shinsei2:shinsei2,
+      ptn2:ptn2
     }
-    res.render('index', opt);
+    res.render('lastmonth', opt);
   }
 });
 });
 
-//+1を押すとき,チェックボックスを押すとき
+//今月も使用を押すとき,チェックボックスを押すとき
 router.post('/',async function(req,res,next){
   let id3=req.body.id;
   let shinsei=req.body.check;
@@ -153,6 +159,7 @@ router.post('/',async function(req,res,next){
   let times3=req.body.times;
   let job3=req.body.job;
   let memo3=req.body.memo;
+  let ptn3=req.body.ptn;
   console.log(id3+shinsei+shuppatsu3+totyaku3+shudan3+money3+times3+job3+memo3);
   var client=new Client({
     user:'postgres',
@@ -167,7 +174,7 @@ if(req.body.count){
     if (err) {
       console.log(err); //エラー時にコンソールに表示
     } else {
-      client.query("UPDATE kotsuhi_memo SET times=times+1, biko_memo=concat(biko_memo,',','"+tomonth+"/"+todate+"') where memo_no="+id3);
+      client.query("INSERT into kotsuhi_memo (user_no,memo_ymd,shuppatsu_nm,totyaku_nm,keiyu_nm,shudan_nm,memo_kingaku,times,job_memo,ptn_toroku_flg) VALUE(1,"+today+","+shuppatsu3+","+totyaku3+","+keiyu3+","+shudan3+","+money3+","+times3+","+job3+","+ptn3+")");
       console.log(req.body.checked+' 0');
       res.redirect('/')
     }
