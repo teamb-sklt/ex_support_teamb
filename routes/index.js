@@ -77,9 +77,9 @@ client.connect(async function(err, client) {
         memo[i]=result.rows[i].biko_memo;
         // shinsei[i]=result.rows[i].shinsei_flg;
         if(result.rows[i].shinsei_flg===1){
-          shinsei[i]='checked';
+          shinsei[i]='done';
         }else{
-          shinsei[i]='';
+          shinsei[i]='yet';
         }        
       }
       console.log(date0);
@@ -99,9 +99,9 @@ client.connect(async function(err, client) {
         job2[i]=result.rows[i].job_memo;
         memo2[i]=result.rows[i].biko_memo;
         if(result.rows[i].shinsei_flg===1){
-          shinsei2[i]='checked';
+          shinsei2[i]='done';
         }else{
-          shinsei2[i]='';
+          shinsei2[i]='yet';
         }        
       } 
       console.log(date02);     
@@ -145,7 +145,7 @@ client.connect(async function(err, client) {
 //+1を押すとき,チェックボックスを押すとき
 router.post('/',async function(req,res,next){
   let id3=req.body.id;
-  let shinsei=req.body.shinsei;
+  let shinsei=req.body.check;
   let shuppatsu3=req.body.shuppatsu;
   let totyaku3=req.body.totyaku;
   let shudan3=req.body.shudan;
@@ -153,7 +153,7 @@ router.post('/',async function(req,res,next){
   let times3=req.body.times;
   let job3=req.body.job;
   let memo3=req.body.memo;
-  console.log(id3+shuppatsu3+totyaku3+shudan3+money3+times3+job3+memo3);
+  console.log(id3+shinsei+shuppatsu3+totyaku3+shudan3+money3+times3+job3+memo3);
   var client=new Client({
     user:'postgres',
     host:'localhost',
@@ -177,11 +177,11 @@ if(req.body.count){
   if (err) {
     console.log(err); //エラー時にコンソールに表示
   } else {
-    if(shinsei!=='checked'){
-      client.query("UPDATE kotsuhi_memo SET shinsei_flg=1 where memo_no="+id3);
-      console.log(shinsei+' 1');
-    }else if(shinsei==='checked'){
+    if(shinsei==='done'){
       client.query("UPDATE kotsuhi_memo SET shinsei_flg=0 where memo_no="+id3);
+      console.log(shinsei+' 1');
+    }else if(shinsei==='yet'){
+      client.query("UPDATE kotsuhi_memo SET shinsei_flg=1 where memo_no="+id3);
       console.log(shinsei+' 2');
     }
   } 

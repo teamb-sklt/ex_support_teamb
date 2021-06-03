@@ -34,27 +34,41 @@
         </tr>
         <% for(let i in shuppatsu){ %> 
         <tr>
-          <form method="POST" action="/">
-            <div class="form-group">
-              <td id="checkbox0"><input type="checkbox" name="申請" id="sinsei1"></td>
-              <td id="date"><%- month[i] %>/<%- date[i] %>  </td>
-              <td id="keiro"><%- shuppatsu[i] %> ～<%- totyaku2[i] %> </td>
-              <td id="shudan"><%- shudan[i] %> </td>
-              <td id="money"><%- money[i] %> </td>
-              <td id="times"><%- times[i] %> </td>
-              <td id="job"><%- job[i] %> </td>
-              <td id="memo"><%- memo[i] %> </td>
-              <input type="hidden" name="id" value="<%- id[i] %> ">
-              <input type="hidden" name="shuppatsu" value="<%- shuppatsu[i] %> ">
-              <input type="hidden" name="totyaku" value="<%- totyaku[i] %> ">
-              <input type="hidden" name="shudan" value="<%- shudan[i] %> ">
-              <input type="hidden" name="money" value="<%- money[i] %> ">
-              <input type="hidden" name="times" value="<%- times[i] %> ">
-              <input type="hidden" name="job" value="<%- job[i] %> ">
-              <input type="hidden" name="memo" value="<%- memo[i] %> ">
-              <td><a class="btn btn-secondary" name="detail" href="javascript:detail(<%= id[i],shuppatsu[i].id,totyaku[i],shudan[i],money[i],times[i],job[i],memo[i] %> );">詳細</a></td>
-              <td><button class="btn btn-secondary" name="oneway">＋１</button></td>
-            </div>
+          <form method="POST" action="/" name="switch">
+            <input type="hidden" name="id" value="<%- id[i] %> ">
+            <input type="hidden" name="shinsei" value="<%- shinsei[i] %> ">
+            <td><input type="submit" name="check" value="<%- shinsei[i] %>" id="sinsei"></td>
+          </form>
+          <div class="content">
+            <td id="date"><%- month[i] %>/<%- date[i] %> </td>
+            <td id="keiro"><%- shuppatsu[i] %> ～<%- totyaku[i] %></td>
+            <td id="shudan"><%- shudan[i] %></td>
+            <td id="money"><%- money[i] %></td>
+            <td id="times"><%- times[i] %></td>
+            <td id="job"><%- job[i] %></td>
+            <td id="memo"><%- memo[i] %></td>  
+          </div>  
+          <form method="POST" action="/detail">
+            <input type="hidden" name="id" value="<%- id[i] %> ">
+            <input type="hidden" name="shuppatsu" value="<%- shuppatsu[i] %> ">
+            <input type="hidden" name="totyaku" value="<%- totyaku[i] %> ">
+            <input type="hidden" name="shudan" value="<%- shudan[i] %> ">
+            <input type="hidden" name="money" value="<%- money[i] %> ">
+            <input type="hidden" name="times" value="<%- times[i] %> ">
+            <input type="hidden" name="job" value="<%- job[i] %> ">
+            <input type="hidden" name="memo" value="<%- memo[i] %> ">
+            <td><input type="submit" class="btn btn-secondary" name="detail" value="詳細"></td>
+          </form>
+          <form action="/" method="post">
+            <input type="hidden" name="id" value="<%- id[i] %> ">
+            <input type="hidden" name="shuppatsu" value="<%- shuppatsu[i] %> ">
+            <input type="hidden" name="totyaku" value="<%- totyaku[i] %> ">
+            <input type="hidden" name="shudan" value="<%- shudan[i] %> ">
+            <input type="hidden" name="money" value="<%- money[i] %> ">
+            <input type="hidden" name="times" value="<%- times[i] %> ">
+            <input type="hidden" name="job" value="<%- job[i] %> ">
+            <input type="hidden" name="memo" value="<%- memo[i] %> ">
+            <td><input type="submit" class="btn btn-secondary" name="count" value="+1"></td>  
           </form>
         </tr>
         <% } %> 
@@ -79,9 +93,8 @@
           <form method="POST" action="/" name="switch">
             <input type="hidden" name="id" value="<%- id2[i] %> ">
             <input type="hidden" name="shinsei" value="<%- shinsei2[i] %> ">
-            <td id="checkbox1"><input type="checkbox" name="check" id="sinsei2" <%- shinsei2[i] %> ONCHANGE="document.forms.switch.submit();"></td>
+            <td><input type="submit" name="check" value="<%- shinsei2[i] %>" id="sinsei2"></td>
           </form>
-          <!-- <td id="checkbox1"><input type="checkbox" name="申請" id="sinsei2" <%- shinsei2[i] %> ></td> -->
           <div class="content">
             <td id="date"><%- month2[i] %>/<%- date2[i] %> </td>
             <td id="keiro"><%- shuppatsu2[i] %> ～<%- totyaku2[i] %></td>
