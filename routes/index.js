@@ -50,7 +50,7 @@ router.get('/', async function(req, res, next) {
     user:'postgres',
     host:'localhost',
     database:'ex_support',
-    password:'skylight',
+    password:'shoji2324',
     port:5432,
     dateStrings:'date'
 });
