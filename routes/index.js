@@ -50,7 +50,7 @@ router.get('/', async function(req, res, next) {
     user:'postgres',
     host:'localhost',
     database:'ex_support',
-    password:'shoji2324',
+    password:'skylight',
     port:5432,
     dateStrings:'date'
 });
@@ -191,30 +191,30 @@ if(req.body.count){
 });
 
 
-//詳細を押すとき
-router.post('/detail',async function(req,res,next){
- if(req.body.detail){
-  let id=req.body.id;
-  let shuppatsu=req.body.shuppatsu;
-  let totyaku=req.body.totyaku;
-  let shudan=req.body.shudan;
-  let money=req.body.money;
-  let times=req.body.times;
-  let job=req.body.job;
-  let memo=req.body.memo;
-  console.log(id+shuppatsu+totyaku+shudan+money+times+job+memo);
-  res.render('detail', {
-    title: '詳細ページ',
-    message: '各項目を入力してください',
-    price: money,
-    sStart:shuppatsu,
-    sGoal:totyaku,
-    moveDate: 'value='+'"'+req.body.date+'"',
-    date:req.body.date,
-    sWaypoint: keiyu,
-    complete:''
-  });
- }
-});
+// //詳細を押すとき
+// router.post('/detail',async function(req,res,next){
+//  if(req.body.detail){
+//   let id=reqc.body.id;
+//   let shuppatsu=req.body.shuppatsu;
+//   let totyaku=req.body.totyaku;
+//   let shudan=req.body.shudan;
+//   let money=req.body.money;
+//   let times=req.body.times;
+//   let job=req.body.job;
+//   let memo=req.body.memo;
+//   console.log(id+shuppatsu+totyaku+shudan+money+times+job+memo);
+//   res.render('detail', {
+//     title: '詳細ページ',
+//     message: '各項目を入力してください',
+//     price: money,
+//     sStart:shuppatsu,
+//     sGoal:totyaku,
+//     moveDate: 'value='+'"'+req.body.date+'"',
+//     date:req.body.date,
+//     sWaypoint: keiyu,
+//     complete:''
+//   });
+//  }
+// });
 
 module.exports = router;
