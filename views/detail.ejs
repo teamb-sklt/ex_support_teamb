@@ -116,7 +116,8 @@
             <label for='regularly'>「よく使う経路」に登録する</label> <input type="checkbox" class='big' id='regularly' name='regularly'>
         </div>
         <div>
-            <input type="submit" id="btn-return" value="戻る" class="btn btn-primary" onclick="frameClick();">
+            <!-- <input type="submit" id="btn-return" value="戻る" class="btn btn-primary" onclick="frameClick();"> -->
+            <button class="btn btn-primary" id="btn-return">戻る</button>
             <input type="submit" id="btn-save" value="保存" class="btn btn-primary" name='save'>
             <input type="submit" id="btn-delete" value="削除" class="btn btn-primary" name='delete'>
         </div>
@@ -126,9 +127,12 @@
         'use strict'
 
         //戻るボタンでindex.jsに遷移
-        function frameClick() {
-            document.location.href = 'http://localhost:3000/';
-        };
+        // function frameClick() {
+        //     document.location.href = 'http://localhost:3000';
+        // };
+        document.getElementById("btn-return").onclick=function(){
+        document.location="/";//詳細設定ページへ
+      }
 
         //日付・時刻の初期値の設定
         var date = new Date();

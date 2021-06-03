@@ -182,7 +182,7 @@ router.post('/',function(req,response,next){
             user: 'postgres',
             host: 'localhost',
             database: 'ex_support',
-            password:'Psklt@363',
+            password:'skylight',
             port:5432
         });
 
@@ -194,7 +194,7 @@ router.post('/',function(req,response,next){
         let dGoal = req.body.routeGoal;
         let dWaypoint = req.body.routeWaypoint;
         let dWay = req.body.way;
-        let dPrice =target.Oneway;
+        let dPrice =req.body.price;
         let dTimes = req.body.times;
         let dMemo = req.body.memo;
         let dPattern = req.body.regularly;
@@ -267,6 +267,30 @@ router.post('/',function(req,response,next){
 
         response.render('detail', opt);
     }
+    else  if(req.body.detail){
+        let id=req.body.id;
+        let shuppatsu=req.body.shuppatsu;
+        let totyaku=req.body.totyaku;
+        let keiyu=req.body.keiyu;
+        let shudan=req.body.shudan;
+        let money=req.body.money;
+        let times=req.body.times;
+        let job=req.body.job;
+        let memo=req.body.memo;
+        console.log(id+shuppatsu+totyaku+shudan+money+times+job+memo);
+        response.render('detail', {
+          title: '詳細ページ',
+          message: '各項目を入力してください',
+          price:'value=' +money,
+          sStart:shuppatsu,
+          sGoal:totyaku,
+          moveDate: 'value='+'"'+req.body.date+'"',
+          date:req.body.date,
+          sWaypoint: keiyu,
+          complete:''
+        });
+       }
+      
 });
 
 
