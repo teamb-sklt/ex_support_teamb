@@ -10,7 +10,7 @@
       }
     </style>
   </head>
-  <body>
+  <body onload="rel()">
     <h1>交通費メモ閲覧</h1>
     <h2><%- lmonth %> 月21日～<%- tmonth %> 月20日データ</h2>
     <!-- 前月データへ移動 -->
@@ -36,7 +36,7 @@
         <tr>
           <form method="POST" action="/">
             <div class="form-group">
-              <td id="checkbox0"><input type="checkbox" name="申請" id="sinsei"></td>
+              <td id="checkbox0"><input type="checkbox" name="申請" id="sinsei1"></td>
               <td id="date"><%- month[i] %>/<%- date[i] %>  </td>
               <td id="keiro"><%- shuppatsu[i] %> ～<%- totyaku2[i] %> </td>
               <td id="shudan"><%- shudan[i] %> </td>
@@ -76,7 +76,12 @@
         </tr>
         <% for(let i in shuppatsu2){ %> 
         <tr>
-          <td id="checkbox1"><input type="checkbox" name="申請" id="sinsei"></td>
+          <form method="POST" action="/" name="switch">
+            <input type="hidden" name="id" value="<%- id2[i] %> ">
+            <input type="hidden" name="shinsei" value="<%- shinsei2[i] %> ">
+            <td id="checkbox1"><input type="checkbox" name="check" id="sinsei2" <%- shinsei2[i] %> ONCHANGE="document.forms.switch.submit();"></td>
+          </form>
+          <!-- <td id="checkbox1"><input type="checkbox" name="申請" id="sinsei2" <%- shinsei2[i] %> ></td> -->
           <div class="content">
             <td id="date"><%- month2[i] %>/<%- date2[i] %> </td>
             <td id="keiro"><%- shuppatsu2[i] %> ～<%- totyaku2[i] %></td>
@@ -95,7 +100,7 @@
             <input type="hidden" name="times" value="<%- times2[i] %> ">
             <input type="hidden" name="job" value="<%- job2[i] %> ">
             <input type="hidden" name="memo" value="<%- memo2[i] %> ">
-            <td><input type="submit" class="btn btn-secondary" value="詳細"></td>
+            <td><input type="submit" class="btn btn-secondary" name="detail" value="詳細"></td>
           </form>
           <form action="/" method="post">
             <input type="hidden" name="id" value="<%- id2[i] %> ">
@@ -106,20 +111,30 @@
             <input type="hidden" name="times" value="<%- times2[i] %> ">
             <input type="hidden" name="job" value="<%- job2[i] %> ">
             <input type="hidden" name="memo" value="<%- memo2[i] %> ">
-            <td><input type="submit" class="btn btn-secondary" value="+1"></td>  
+            <td><input type="submit" class="btn btn-secondary" name="count" value="+1"></td>  
           </form>
         </tr>
         <% } %> 
       </table>
     </div>
+    <script>
+      'use strict';
+      document.getElementById("detail").onclick=function(){
+        document.location="/detail";//詳細設定ページへ
+      }
+      function copy(id,shuppatsu,totyaku,shudan,money,times,job,memo){
+        let result= window.confirm("以下のメモをコピーしますか？\n"+"経路："+shuppatsu+"~"+totyaku+"\n手段："+shudan+"\n費用："+money+"\n回数："+times+"\nジョブ情報："+job+"\nメモ："+memo);
+      }
+      function rel() {
+    if (window.name != "any") {
+      location.reload();
+      window.name = "any";
+    } else {
+      window.name = "";
+    }
+  }
+  
+    </script>
+  
   </body>
-  <script>
-    'use strict';
-    document.getElementById("detail").onclick=function(){
-      document.location="/detail";//詳細設定ページへ
-    }
-    function copy(id,shuppatsu,totyaku,shudan,money,times,job,memo){
-      let result= window.confirm("以下のメモをコピーしますか？\n"+"経路："+shuppatsu+"~"+totyaku+"\n手段："+shudan+"\n費用："+money+"\n回数："+times+"\nジョブ情報："+job+"\nメモ："+memo);
-    }
-  </script>
 </html>
