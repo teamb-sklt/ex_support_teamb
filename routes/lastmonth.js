@@ -149,79 +149,79 @@ client.connect(async function(err, client) {
 });
 
 //今月も使用を押すとき,チェックボックスを押すとき
-router.post('/',async function(req,res,next){
-  let id3=req.body.id;
-  let shinsei=req.body.check;
-  let shuppatsu3=req.body.shuppatsu;
-  let totyaku3=req.body.totyaku;
-  let shudan3=req.body.shudan;
-  let money3=req.body.money;
-  let times3=req.body.times;
-  let job3=req.body.job;
-  let memo3=req.body.memo;
-  let ptn3=req.body.ptn;
-  console.log(id3+shinsei+shuppatsu3+totyaku3+shudan3+money3+times3+job3+memo3);
-  var client=new Client({
-    user:'postgres',
-    host:'localhost',
-    database:'ex_support',
-    password:'skylight',
-    port:5432
-});
-/* ここでデータベースにアクセスする */
-if(req.body.count){
-  client.connect(async function(err, client) {
-    if (err) {
-      console.log(err); //エラー時にコンソールに表示
-    } else {
-      client.query("INSERT into kotsuhi_memo (user_no,memo_ymd,shuppatsu_nm,totyaku_nm,keiyu_nm,shudan_nm,memo_kingaku,times,job_memo,ptn_toroku_flg) VALUE(1,"+today+","+shuppatsu3+","+totyaku3+","+keiyu3+","+shudan3+","+money3+","+times3+","+job3+","+ptn3+")");
-      console.log(req.body.checked+' 0');
-      res.redirect('/')
-    }
-  });  
-}else if(req.body.check){
-  client.connect(async function(err, client) {
-  if (err) {
-    console.log(err); //エラー時にコンソールに表示
-  } else {
-    if(shinsei==='done'){
-      client.query("UPDATE kotsuhi_memo SET shinsei_flg=0 where memo_no="+id3);
-      console.log(shinsei+' 1');
-    }else if(shinsei==='yet'){
-      client.query("UPDATE kotsuhi_memo SET shinsei_flg=1 where memo_no="+id3);
-      console.log(shinsei+' 2');
-    }
-  } 
-  res.redirect('/')
-});
-}
-});
+// router.post('/',async function(req,res,next){
+//   let id3=req.body.id;
+//   let shinsei=req.body.check;
+//   let shuppatsu3=req.body.shuppatsu;
+//   let totyaku3=req.body.totyaku;
+//   let shudan3=req.body.shudan;
+//   let money3=req.body.money;
+//   let times3=req.body.times;
+//   let job3=req.body.job;
+//   let memo3=req.body.memo;
+//   let ptn3=req.body.ptn;
+//   console.log(id3+shinsei+shuppatsu3+totyaku3+shudan3+money3+times3+job3+memo3);
+//   var client=new Client({
+//     user:'postgres',
+//     host:'localhost',
+//     database:'ex_support',
+//     password:'skylight',
+//     port:5432
+// });
+// /* ここでデータベースにアクセスする */
+// if(req.body.copy){
+//   client.connect(async function(err, client) {
+//     if (err) {
+//       console.log(err); //エラー時にコンソールに表示
+//     } else {
+//       client.query("INSERT into kotsuhi_memo (user_no,memo_ymd,shuppatsu_nm,totyaku_nm,keiyu_nm,shudan_nm,memo_kingaku,times,job_memo,ptn_toroku_flg) VALUE(1,"+today+","+shuppatsu3+","+totyaku3+","+keiyu3+","+shudan3+","+money3+","+times3+","+job3+","+ptn3+")");
+//       console.log(req.body.checked+' 0');
+//       res.redirect('/')
+//     }
+//   });  
+// }else if(req.body.check){
+//   client.connect(async function(err, client) {
+//   if (err) {
+//     console.log(err); //エラー時にコンソールに表示
+//   } else {
+//     if(shinsei==='done'){
+//       client.query("UPDATE kotsuhi_memo SET shinsei_flg=0 where memo_no="+id3);
+//       console.log(shinsei+' 1');
+//     }else if(shinsei==='yet'){
+//       client.query("UPDATE kotsuhi_memo SET shinsei_flg=1 where memo_no="+id3);
+//       console.log(shinsei+' 2');
+//     }
+//   } 
+//   res.redirect('/')
+// });
+// }
+// });
 
 
-//詳細を押すとき
-router.post('/detail',async function(req,res,next){
- if(req.body.detail){
-  let id=req.body.id;
-  let shuppatsu=req.body.shuppatsu;
-  let totyaku=req.body.totyaku;
-  let shudan=req.body.shudan;
-  let money=req.body.money;
-  let times=req.body.times;
-  let job=req.body.job;
-  let memo=req.body.memo;
-  console.log(id+shuppatsu+totyaku+shudan+money+times+job+memo);
-  res.render('detail', {
-    title: '詳細ページ',
-    message: '各項目を入力してください',
-    price: money,
-    sStart:shuppatsu,
-    sGoal:totyaku,
-    moveDate: 'value='+'"'+req.body.date+'"',
-    date:req.body.date,
-    sWaypoint: keiyu,
-    complete:''
-  });
- }
-});
+// //詳細を押すとき
+// router.post('/detail',async function(req,res,next){
+//  if(req.body.detail){
+//   let id=req.body.id;
+//   let shuppatsu=req.body.shuppatsu;
+//   let totyaku=req.body.totyaku;
+//   let shudan=req.body.shudan;
+//   let money=req.body.money;
+//   let times=req.body.times;
+//   let job=req.body.job;
+//   let memo=req.body.memo;
+//   console.log(id+shuppatsu+totyaku+shudan+money+times+job+memo);
+//   res.render('detail', {
+//     title: '詳細ページ',
+//     message: '各項目を入力してください',
+//     price: money,
+//     sStart:shuppatsu,
+//     sGoal:totyaku,
+//     moveDate: 'value='+'"'+req.body.date+'"',
+//     date:req.body.date,
+//     sWaypoint: keiyu,
+//     complete:''
+//   });
+//  }
+// });
 
 module.exports = router;
