@@ -29,8 +29,8 @@
           <th>手段</th>
           <th>費用</th>
           <th>回数</th>
-          <th>ジョブ情報</th>
           <th>メモ</th>
+          <th>EX用備考</th>
           <th>詳細</th>
           <th>回数＋１</th>
         </tr>
@@ -52,8 +52,10 @@
           </div>  
           <form method="POST" action="/detail">
             <input type="hidden" name="id" value="<%- id[i] %> ">
+            <input type="hidden" name="date" value="<%- date[i] %>">
             <input type="hidden" name="shuppatsu" value="<%- shuppatsu[i] %>">
             <input type="hidden" name="totyaku" value="<%- totyaku[i] %>">
+            <input type="hidden" name="keiro" value="<%- keiro[i] %>">
             <input type="hidden" name="shudan" value="<%- shudan[i] %>">
             <input type="hidden" name="money" value="<%- money[i] %>">
             <input type="hidden" name="times" value="<%- times[i] %>">
@@ -77,6 +79,7 @@
       </table>
     </div>
     <div class="container">
+      <h5><br>それ以外の経路</h5>
       <table class="table">
         <tr>
           <th>申請</th>
@@ -85,8 +88,8 @@
           <th>手段</th>
           <th>費用</th>
           <th>回数</th>
-          <th>ジョブ情報</th>
           <th>メモ</th>
+          <th>EX用備考</th>
           <th>詳細</th>
           <th>回数＋１</th>
         </tr>
@@ -108,8 +111,10 @@
           </div>  
           <form method="POST" action="/detail">
             <input type="hidden" name="id" value="<%- id2[i] %>">
+            <input type="hidden" name="date" value="<%- date2[i] %>">
             <input type="hidden" name="shuppatsu" value="<%- shuppatsu2[i] %>">
             <input type="hidden" name="totyaku" value="<%- totyaku2[i] %>">
+            <input type="hidden" name="keiro" value="<%- keiro2[i] %>">
             <input type="hidden" name="shudan" value="<%- shudan2[i] %>">
             <input type="hidden" name="money" value="<%- money2[i] %>">
             <input type="hidden" name="times" value="<%- times2[i] %>">
