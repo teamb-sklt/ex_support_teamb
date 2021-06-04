@@ -148,12 +148,17 @@ router.post('/',async function(req,res,next){
   let shinsei=req.body.check;
   let shuppatsu3=req.body.shuppatsu;
   let totyaku3=req.body.totyaku;
+  let keiyu3=req.body.keiyu;
   let shudan3=req.body.shudan;
   let money3=req.body.money;
   let times3=req.body.times;
   let job3=req.body.job;
   let memo3=req.body.memo;
-  console.log(id3+shinsei+shuppatsu3+totyaku3+shudan3+money3+times3+job3+memo3);
+  let ptn3=req.body.ptn;
+  var money4=toString(money3);
+  var times4=Number(times3);
+  var ptn4=Number(ptn3);
+  console.log(id3+shinsei+shuppatsu3+totyaku3+keiyu3+shudan3+money4+times4+job3+memo3+ptn4);
   var client=new Client({
     user:'postgres',
     host:'localhost',
@@ -187,7 +192,17 @@ if(req.body.count){
   } 
   res.redirect('/')
 });
-}
+}else if(req.body.copy){
+  client.connect(async function(err, client) {
+    if (err) {
+      console.log(err); //エラー時にコンソールに表示
+    } else {
+      client.query("INSERT INTO kotsuhi_memo (user_no,memo_ymd,shuppatsu_nm,totyaku_nm,keiyu_nm,shudan_nm,memo_kingaku,times,job_memo,ptn_toroku_flg) VALUES (1,current_date,'"+shuppatsu3+"','"+totyaku3+"','"+keiyu3+"','"+shudan3+"',"+money3+","+times4+",'"+job3+"',"+ptn4+")");
+      console.log(req.body.checked+' 0');
+      res.redirect('/')
+    }
+  });  
+};
 });
 
 
