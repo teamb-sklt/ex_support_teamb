@@ -186,7 +186,7 @@ router.post('/',function(req,response,next){
             user: 'postgres',
             host: 'localhost',
             database: 'ex_support',
-            password:'Psklt@363',
+            password:'skylight',
             port:5432
         });
 
@@ -206,13 +206,20 @@ router.post('/',function(req,response,next){
         let dTimes = req.body.times;
         let dMemo = req.body.memo;
         let dPattern = regularly;
-        let dShinsei =1;
+        let dShinsei =0;
         let dMovedate = req.body.date;
         let dUpdate =req.body.date;
-
+        let ddetail=req.body.detail;
+        let did=req.body.id;
+        console.log(ddetail);
         //インサートコマンドを定義
-        const sql = "INSERT INTO kotsuhi_memo (memo_no, user_no,Memo_YMD,Shuppatsu_Nm,Totyaku_Nm,Keiyu_Nm,Shudan_Nm,Memo_Kingaku,Times,Job_Memo,Ptn_Toroku_flg,Shinsei_flg,Biko_Memo,Koshin_Date) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)";
-        const values = [4, 4, dDate, dStart, dGoal, dWaypoint, dWay, dPrice, dTimes, dMemo, dPattern, dShinsei, dMovedate, dUpdate];
+        if(ddetail){
+            sql = "UPDATE kotsuhi_memo SET (user_no=$2,Memo_YMD=$3,Shuppatsu_Nm=$4,Totyaku_Nm=$5,Keiyu_Nm=$6,Shudan_Nm=$7,Memo_Kingaku=$8,Times=$9,Job_Memo=$10,Ptn_Toroku_flg=$11,Shinsei_flg=$12,Biko_Memo=$13,Koshin_Date=$14) WHERE memo_no="+did;
+            values = [4, 4, dDate, dStart, dGoal, dWaypoint, dWay, dPrice, dTimes, dMemo, dPattern, dShinsei, dMovedate, dUpdate];    
+        }else{
+            sql = "INSERT INTO kotsuhi_memo (user_no,Memo_YMD,Shuppatsu_Nm,Totyaku_Nm,Keiyu_Nm,Shudan_Nm,Memo_Kingaku,Times,Job_Memo,Ptn_Toroku_flg,Shinsei_flg,Biko_Memo,Koshin_Date) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)";
+            values = [4, dDate, dStart, dGoal, dWaypoint, dWay, dPrice, dTimes, dMemo, dPattern, dShinsei, dMovedate, dUpdate];    
+        }
 
         //PostgreSQLのクエリ実行
         client.query(sql, values)
@@ -246,14 +253,14 @@ router.post('/',function(req,response,next){
             user: 'postgres',
             host: 'localhost',
             database: 'ex_support',
-            password:'Psklt@363',
+            password:'skylight',
             port:5432
         });
     
         client.connect();   //これは必ず必要
 
         //ディレートコマンドを定義
-        const sql = "DELETE FROM kotsuhi_memo WHERE "+req.body.id    //削除条件をWHERE以降で指定
+        const sql = "DELETE FROM kotsuhi_memo WHERE memo_no="+req.body.id    //削除条件をWHERE以降で指定
 
         //PostgreSQLのクエリ実行
         client.query(sql)
@@ -285,6 +292,7 @@ router.post('/',function(req,response,next){
 
         //index.jsからdetail.jsに渡す値を定義
         let id=req.body.id;
+        let date=req.body.date;
         let shuppatsu=req.body.shuppatsu;
         let totyaku=req.body.totyaku;
         let keiyu=req.body.keiyu;
@@ -304,8 +312,8 @@ router.post('/',function(req,response,next){
             price:'value=' +money,
             sStart:shuppatsu,
             sGoal:totyaku,
-            moveDate: req.body.date.substring(4),
-            moveDate2: '', 
+            moveDate: memo,
+            moveDate2: memo, 
             date:req.body.date,
             sWaypoint: keiyu,
             complete:'',
