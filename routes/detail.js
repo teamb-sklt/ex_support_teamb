@@ -24,11 +24,13 @@ router.get('/',function(req,res,next){
         title: '詳細ページ',
         message: '各項目を入力してください',
         price: 'placeholder="自動計算（ICカード利用時料金）"',
-        moveDate:'placeholder="移動した日付・時刻が自動で追加されます"',
+        moveDate:'',
+        moveDate2: "移動した日付・時刻が自動で追加されます",
         date:'',
         sStart: '',
         sWaypoint: '',
         sGoal: '',
+        id:''
     };
     res.render('detail', opt);
 });
@@ -134,12 +136,14 @@ router.post('/',function(req,response,next){
                 let opt = {
                     title: '運賃が計算できました！',
                     message: '続けて各項目を記入し、保存してください',
-                    price: 'value=' +'"' +target.Oneway +'円' +'"',
-                    moveDate: 'value='+'"'+req.body.date.substring(4)+'"', //データベースの値+この式でいけそう
+                    price: 'value=' +'"' +target.Oneway +'"',
+                    moveDate: req.body.moveDate +',' +req.body.date.substring(4), 
+                    moveDate2: '', 
                     date: req.body.date,
                     sStart: req.body.routeStart,
                     sWaypoint: req.body.routeWaypoint,
-                    sGoal: req.body.routeGoal
+                    sGoal: req.body.routeGoal,
+                    id:''
                 };
 
                 //renderする
@@ -182,11 +186,15 @@ router.post('/',function(req,response,next){
             user: 'postgres',
             host: 'localhost',
             database: 'ex_support',
-            password:'skylight',
+            password:'Psklt@363',
             port:5432
         });
 
         client.connect();   //これは必ず必要
+
+        //パターンフラグの作成
+        if(req.body.regularly=='on'){regularly = 1}
+        else {regularly = 0}
         
         //フォームに入力された値を定義
         let dDate = req.body.date;
@@ -197,7 +205,7 @@ router.post('/',function(req,response,next){
         let dPrice =req.body.price;
         let dTimes = req.body.times;
         let dMemo = req.body.memo;
-        let dPattern = req.body.regularly;
+        let dPattern = regularly;
         let dShinsei =1;
         let dMovedate = req.body.date;
         let dUpdate =req.body.date;
@@ -219,11 +227,13 @@ router.post('/',function(req,response,next){
             title: '保存できました！',
             message: '続けて検索する場合はそのまま各項目を入力してください',
             price: 'placeholder="自動計算（ICカード利用時料金）"',
-            moveDate:'placeholder="移動した日付・時刻が自動で追加されます"',
+            moveDate:"",
+            moveDate2: '移動した日付・時刻が自動で追加されます', 
             date:'',
             sStart: '',
             sWaypoint: '',
             sGoal: '',
+            id:''
         };
         response.render('detail', opt);
     }
@@ -243,7 +253,7 @@ router.post('/',function(req,response,next){
         client.connect();   //これは必ず必要
 
         //ディレートコマンドを定義
-        const sql = "DELETE FROM kotsuhi_memo WHERE user_no = 4"    //削除条件をWHERE以降で指定
+        const sql = "DELETE FROM kotsuhi_memo WHERE "+req.body.id    //削除条件をWHERE以降で指定
 
         //PostgreSQLのクエリ実行
         client.query(sql)
@@ -258,16 +268,22 @@ router.post('/',function(req,response,next){
             title: '削除できました！',
             message: '続けて検索する場合はそのまま各項目を入力してください',
             price: 'placeholder="自動計算（ICカード利用時料金）"',
-            moveDate:'placeholder="移動した日付・時刻が自動で追加されます"',
+            moveDate: "",
+            moveDate2: '移動した日付・時刻が自動で追加されます', 
             date:'',
             sStart: '',
             sWaypoint: '',
-            sGoal: ''
+            sGoal: '',
+            id:''
         };
 
         response.render('detail', opt);
     }
+
+    //index.jsから飛んできたときに実行
     else  if(req.body.detail){
+
+        //index.jsからdetail.jsに渡す値を定義
         let id=req.body.id;
         let shuppatsu=req.body.shuppatsu;
         let totyaku=req.body.totyaku;
@@ -277,17 +293,23 @@ router.post('/',function(req,response,next){
         let times=req.body.times;
         let job=req.body.job;
         let memo=req.body.memo;
+
         console.log(id+shuppatsu+totyaku+shudan+money+times+job+memo);
+
+        //renderする
         response.render('detail', {
-          title: '詳細ページ',
-          message: '各項目を入力してください',
-          price:'value=' +money,
-          sStart:shuppatsu,
-          sGoal:totyaku,
-          moveDate: 'value='+'"'+req.body.date+'"',
-          date:req.body.date,
-          sWaypoint: keiyu,
-          complete:''
+        
+            title: '詳細ページ',
+            message: '各項目を入力してください',
+            price:'value=' +money,
+            sStart:shuppatsu,
+            sGoal:totyaku,
+            moveDate: req.body.date.substring(4),
+            moveDate2: '', 
+            date:req.body.date,
+            sWaypoint: keiyu,
+            complete:'',
+            id:id
         });
        }
       
